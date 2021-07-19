@@ -7,49 +7,77 @@
 app_ui <- function(request) {
 
   waiter::waiter_set_theme(color = "#749dbf")
-  title <- dashboardBrand(
-    title = "ffish lab",
+  title <- bs4Dash::dashboardBrand(
+    title = "",
     color = "primary",
     href = "https://www.ffishlab.ca/",
-    image = "https://raw.githubusercontent.com/poissonconsulting/logos/master/logos/poisson_hex.png"
+    image = "https://static.wixstatic.com/media/61ac64_f09141c85d96400e81d6d7770285d44b~mv2.png/v1/crop/x_3,y_0,w_451,h_81/fill/w_568,h_102,al_c,lg_1,q_85/61ac64_f09141c85d96400e81d6d7770285d44b~mv2.webp"
   )
 
-  dashboardPage(
-    freshTheme = mytheme,
+  bs4Dash::dashboardPage(
+    fullscreen = TRUE,
     dark = NULL,
     scrollToTop = TRUE,
     title = "Columbia River White Sturgeon",
-    header = dashboardHeader(
+    header = bs4Dash::dashboardHeader(
       ... = div(h3("Columbia River White Sturgeon"), style = "vertical-align: baseline;"),
-      title = title
+      title = title,
+      skin = "light",
+      status = "white",
+      border = TRUE,
+      sidebarIcon = icon("bars"),
+      controlbarIcon = icon("th"),
+      fixed = FALSE
     ),
-    sidebar = dashboardSidebar(
+    sidebar = bs4Dash::dashboardSidebar(
       skin = "light",
       elevation = 3,
       id = "sidebarmenu",
-      sidebarHeader("Acoustic Telemetry"),
-      menuItem(
-        "Deployment",
-        tabName = "deployment"
-      ),
-      menuItem(
-        "Detection Path",
-        tabName = "detection_path"
-      ),
-      menuItem(
-        "Detection Ratios",
-        tabName = "detection_ratio"
+      status = "primary",
+      sidebarMenu(
+        sidebarHeader("Acoustic Telemetry"),
+        menuItem(
+          "Deployments",
+          tabName = "deployment",
+          icon = icon("id-card")
+        ),
+        menuItem(
+          "Detection Paths",
+          tabName = "detection_path",
+          icon = icon("map")
+        ),
+        menuItem(
+          "Detection Ratios",
+          tabName = "detection_ratio",
+          icon = icon("id-card")
+        )
       )
     ),
-    controlbar = dashboardControlbar(),
-    footer = dashboardFooter(
+    controlbar = bs4Dash::dashboardControlbar(),
+    footer = bs4Dash::dashboardFooter(
       left = a(
         href = "https://www.ffishlab.ca/",
         target = "_blank", "Freshwater Fish Ecology Lab"
       ),
       right = "2021"
     ),
-    body = dashboardBody()
+    body = bs4Dash::dashboardBody(
+      css_styling(),
+      waiter::use_waiter(),
+      bs4Dash::bs4TabItems(
+        bs4Dash::tabItem(
+          tabName = "deployment",
+          mod_deployment_ui("deployment_ui")
+        ),
+        bs4Dash::tabItem(
+          tabName = "detection_ratio",
+          mod_detection_ratio_ui("detection_ratio_ui")
+        ),
+        bs4Dash::tabItem(
+          tabName = "detection_path",
+          mod_detection_path_ui("detection_path_ui")
+        ))
+    )
   )
 }
 

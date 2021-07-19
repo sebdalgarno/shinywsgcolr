@@ -13,6 +13,7 @@ Imports:
     magrittr,
     processx,
     shiny (>= 1.6.0),
+    shinyhelper,
     waiter,
     wsgcolr
 Encoding: UTF-8
