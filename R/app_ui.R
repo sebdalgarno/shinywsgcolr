@@ -6,6 +6,13 @@
 #' @noRd
 app_ui <- function(request) {
 
+  detection <- getShinyOption("detection", NULL)
+  detection_path <- getShinyOption("detection_paths", NULL)
+  deployment <- getShinyOption("deployment", NULL)
+  station <- getShinyOption("station", NULL)
+  river <- getShinyOption("river", NULL)
+  reference_locations <- getShinyOption("reference_locations", NULL)
+
   waiter::waiter_set_theme(color = "#749dbf")
   title <- bs4Dash::dashboardBrand(
     title = "",

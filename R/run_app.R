@@ -1,28 +1,53 @@
 #' Run the Shiny Application
 #'
-#' @param ... arguments to pass to golem_opts. 
+#' @param ... arguments to pass to golem_opts.
 #' See `?golem::get_golem_options` for more details.
-#' @inheritParams shiny::shinyApp
+#' @inheritParams wsgcolr::params
 #'
 #' @export
 #' @importFrom shiny shinyApp
-#' @importFrom golem with_golem_options 
+#' @importFrom golem with_golem_options
 run_app <- function(
-  onStart = NULL,
-  options = list(), 
-  enableBookmarking = NULL,
-  uiPattern = "/",
+  detection = NULL,
+  detection_path = NULL,
+  deployment = NULL,
+  station = NULL,
+  river = NULL,
+  reference_locations = NULL,
   ...
 ) {
-  with_golem_options(
-    app = shinyApp(
-      ui = app_ui,
-      server = app_server,
-      onStart = onStart,
-      options = options, 
-      enableBookmarking = enableBookmarking, 
-      uiPattern = uiPattern
-    ), 
-    golem_opts = list(...)
+  wsgcolr::chk_deployment(deployment)
+  wsgcolr::chk_detection(detection)
+  # wsgcolr::chk_detection_path(detection_path)
+  # wsgcolr::chk_river(river)
+  # wsgcolr::chk_station(station)
+  # wsgcolr::chk_reference_locations(reference_locations)
+
+  shinyOptions(
+    detection = detection,
+    deployment = deployment,
+    detection_path = detection_path,
+    station = station,
+    river = river,
+    reference_locations = reference_locations
   )
+
+  shinyApp(
+    ui = app_ui,
+    server = app_server
+    # onStart = onStart,
+    # options = options,
+    # enableBookmarking = enableBookmarking
+  )
+
+  # with_golem_options(
+  #   app = shinyApp(
+  #     ui = app_ui,
+  #     server = app_server,
+  #     onStart = onStart,
+  #     options = options,
+  #     enableBookmarking = enableBookmarking
+  #   ),
+  #   golem_opts = list(...)
+  # )
 }

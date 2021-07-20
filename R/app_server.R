@@ -6,7 +6,17 @@
 #' @noRd
 app_server <- function( input, output, session ) {
   # Your application server logic
-  mod_detection_path_server("detection_path_ui"
-  )
+
+  detection <- getShinyOption("detection", NULL)
+  detection_path <- getShinyOption("detection_paths", NULL)
+  deployment <- getShinyOption("deployment", NULL)
+  station <- getShinyOption("station", NULL)
+  river <- getShinyOption("river", NULL)
+  reference_locations <- getShinyOption("reference_locations", NULL)
+
+
+  mod_deployment_server("deployment_ui",
+                        detection = detection, deployment = deployment,
+                        station = station, river = river)
 
 }
