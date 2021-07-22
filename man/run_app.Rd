@@ -17,7 +17,7 @@ run_app(
 \arguments{
 \item{detection}{A tibble of detection data containing columns 'transmitter_id', 'timestep', 'station'. If \code{NULL}, argument is ignored.}
 
-\item{detection_path}{A tibble of detection path data containing columns 'transmitter_id', 'timestep', 'path', 'array', 'array_rkm', .}
+\item{detection_path}{A tibble of detection path data containing columns 'transmitter_id', 'timestep', 'path', 'array', 'array_rkm'.}
 
 \item{deployment}{A tibble of the receiver deployments containing columns 'date_deployment', 'date_last_download', 'station', 'array', 'array_rkm'.}
 

@@ -18,7 +18,7 @@ app_ui <- function(request) {
     title = "",
     color = "primary",
     href = "https://www.ffishlab.ca/",
-    image = "https://static.wixstatic.com/media/61ac64_f09141c85d96400e81d6d7770285d44b~mv2.png/v1/crop/x_3,y_0,w_451,h_81/fill/w_568,h_102,al_c,lg_1,q_85/61ac64_f09141c85d96400e81d6d7770285d44b~mv2.webp"
+    image = ""
   )
 
   bs4Dash::dashboardPage(

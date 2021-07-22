@@ -2,9 +2,12 @@
 % Please edit documentation in R/mod-deployment.R
 \name{mod_deployment_ui}
 \alias{mod_deployment_ui}
+\alias{mod_deployment_server}
 \title{PDF Download Module}
 \usage{
 mod_deployment_ui(id)
+
+mod_deployment_server(id, detection, deployment, station, river)
 }
 \description{
 A shiny module for downloading field data cards. Select and
