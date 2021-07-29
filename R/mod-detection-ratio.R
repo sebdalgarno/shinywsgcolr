@@ -1,37 +1,34 @@
-#' @title   PDF Download Module
-#' @description  A shiny module for downloading field data cards. Select and
-#' download resources needed for the project like field cards.
+#' @title   Detection ratio
+#' @description  A shiny module for visualizing absolute and relative detection ratios.
 #' @inheritParams params
 #'
 #' @rdname mod_detection_ratio
 #' @export
 #' @keywords internal
-mod_detection_ratio_ui <- function(id) {
+mod_detection_ratio_ui <- function(id, sex, weight, forklength) {
   ns <- NS(id)
-
-  instructions <- bs4Dash::box(
-    width = 12, title = helper(div(HTML(
-      glue("Download resource &nbsp &nbsp &nbsp")
-    )),
-    content = "instructions_dl"
-    ),
-    br(),
-    helper(tags$label("1. Select resource"), content = "select_card"),
-    uiOutput(ns("ui_file_select")),
-    helper(tags$label("2. Download"), content = "fieldcard_dl"),
-    dl_button(ns("dl_button"), "PDF")
-  )
 
   div(
     id = ns("card_tab"),
     fluidRow(
-      column(width = 4, ""),
-      column(width = 8, "If you are unable to preview the file, try a different
-             browser. It may take a few seconds to load.")
-    ),
-    fluidRow(
-      column(width = 4, instructions),
-      column(width = 8, uiOutput(ns("ui_select")))
+      bs4Dash::box(
+        width = 4, title = "Which fish do you want to see?",
+        checkboxGroupInput(ns("sex"), label = "Select sex",
+                           choices = sex, selected = c("female", "male"), inline = TRUE),
+        sliderInput(ns("forklength"), label = "Select fork length (cm) range",
+                    min = forklength[1], max = forklength[2], value = forklength),
+        sliderInput(ns("weight"), label = "Select weight (kg) range",
+                    min = weight[1], max = weight[2], value = weight),
+        uiOutput(ns("ui_picker"))
+      ),
+      bs4Dash::box(
+        width = 8, title = "Detection Path",
+        shiny::helpText("Absolute and relative detection ratios are calculated for selected fish by receiver group."),
+        br(),
+        br(),
+        shinycssloaders::withSpinner(uiOutput(ns("ui_plots")))
+
+      )
     )
   )
 }
@@ -39,39 +36,46 @@ mod_detection_ratio_ui <- function(id) {
 #'
 #' @rdname mod_detection_path
 #' @export
-mod_detection_ratio_server <- function(id) {
+mod_detection_ratio_server <- function(id, detection_complete, fish, receiver_group) {
   moduleServer(id, function(input, output, session) {
 
     ns <- session$ns
-    shinyhelper::observe_helpers(
-      help_dir = system.file("helpfiles", package = "shinyupload2")
-    )
-    card_location <- paste0(getwd(), "/www/pdfs/")
 
-    output$ui_file_select <- renderUI({
-      card_names <- list.files(card_location)
-
-      selectInput(ns("select_card"),
-                  label = NULL,
-                  choices = card_names
-      )
+    transmitters <- reactive({
+      filter_fish(fish, input$forklength, input$weight, input$sex)$transmitter_id %>% sort()
     })
 
-    # this displays the selected file
-    output$ui_select <- renderUI({
-      req(input$select_card)
-      addResourcePath("pdfs", "www/pdfs")
-      card_name <- paste0("pdfs/", input$select_card)
-      tags$iframe(style = "height:600px; width:100%", src = card_name)
+    detection_data <- reactive({
+      req(input$transmitter)
+      detection_complete %>%
+        filter(transmitter_id %in% input$transmitter) %>%
+        wsgcolr::detection_ratio(receiver_group = receiver_group)
     })
 
-    output$dl_button <- downloadHandler(
-      filename = function() paste0(input$select_card),
-      content = function(file) {
-        file_loc <- paste0(card_location, input$select_card, collapse = NULL)
-        file.copy(file_loc, file)
-      })
-  }
-  )
+    create_ui <- function(data, receiver_group, relative) {
+      if(relative){
+        p <- wsgcolr::plot_detection_ratio_relative(detection = data,
+                                                    receiver_group = receiver_group)
+      } else {
+        p <- wsgcolr::plot_detection_ratio_absolute(detection = data,
+                                                    receiver_group = receiver_group)
+      }
+      renderPlot(p)
+    }
+
+    output$ui_plots <- renderUI({
+      x <- req(detection_data())
+      tagList(list(create_ui(x, receiver_group = receiver_group, relative = TRUE),
+                   create_ui(x, receiver_group = receiver_group, relative = FALSE)))
+    })
+
+    output$ui_picker <- renderUI({
+      req(transmitters())
+      shinyWidgets::pickerInput(ns("transmitter"), label = "Select transmitter(s)",
+                  choices = transmitters(),
+                  selected = transmitters(),
+                  multiple = TRUE)
+    })
+  })
 }
 

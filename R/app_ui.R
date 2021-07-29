@@ -6,14 +6,11 @@
 #' @noRd
 app_ui <- function(request) {
 
-  detection <- getShinyOption("detection", NULL)
-  detection_path <- getShinyOption("detection_paths", NULL)
-  deployment <- getShinyOption("deployment", NULL)
-  station <- getShinyOption("station", NULL)
-  river <- getShinyOption("river", NULL)
-  reference_locations <- getShinyOption("reference_locations", NULL)
+  fish <- getShinyOption("fish", NULL)
+  sex <- unique(fish$sex)
+  forklength <- range(fish$forklength_cm)
+  weight <- range(fish$weight_kg)
 
-  waiter::waiter_set_theme(color = "#749dbf")
   title <- bs4Dash::dashboardBrand(
     title = "",
     color = "primary",
@@ -70,7 +67,6 @@ app_ui <- function(request) {
     ),
     body = bs4Dash::dashboardBody(
       css_styling(),
-      waiter::use_waiter(),
       bs4Dash::bs4TabItems(
         bs4Dash::tabItem(
           tabName = "deployment",
@@ -78,11 +74,11 @@ app_ui <- function(request) {
         ),
         bs4Dash::tabItem(
           tabName = "detection_ratio",
-          mod_detection_ratio_ui("detection_ratio_ui")
+          mod_detection_ratio_ui("detection_ratio_ui", sex = sex, weight = weight, forklength = forklength)
         ),
         bs4Dash::tabItem(
           tabName = "detection_path",
-          mod_detection_path_ui("detection_path_ui")
+          mod_detection_path_ui("detection_path_ui", sex = sex, weight = weight, forklength = forklength)
         ))
     )
   )

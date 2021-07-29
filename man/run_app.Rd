@@ -5,28 +5,40 @@
 \title{Run the Shiny Application}
 \usage{
 run_app(
-  detection = NULL,
-  detection_path = NULL,
-  deployment = NULL,
-  station = NULL,
-  river = NULL,
-  reference_locations = NULL,
-  ...
+  detection = readRDS(system.file("extdata/detection.rds", package = "shinywsgcolr")),
+  deployment = readRDS(system.file("extdata/deployment.rds", package = "shinywsgcolr")),
+  fish = readRDS(system.file("extdata/fish.rds", package = "shinywsgcolr")),
+  station = readRDS(system.file("extdata/station.rds", package = "shinywsgcolr")),
+  receiver_group_rkm = readRDS(system.file("extdata/receiver_group_rkm.rds", package =
+    "shinywsgcolr")),
+  reference_rkm = readRDS(system.file("extdata/reference_rkm.rds", package =
+    "shinywsgcolr")),
+  river = readRDS(system.file("extdata/river.rds", package = "shinywsgcolr")),
+  timestep = "day",
+  receiver_group = "array",
+  max_absence = 96
 )
 }
 \arguments{
-\item{detection}{A tibble of detection data containing columns 'transmitter_id', 'timestep', 'station'. If \code{NULL}, argument is ignored.}
-
-\item{detection_path}{A tibble of detection path data containing columns 'transmitter_id', 'timestep', 'path', 'array', 'array_rkm'.}
+\item{detection}{A tibble of raw detection data containing columns 'transmitter_id' and 'datetime_utc'.}
 
 \item{deployment}{A tibble of the receiver deployments containing columns 'date_deployment', 'date_last_download', 'station', 'array', 'array_rkm'.}
 
+\item{fish}{A tibble of fish data containing columns 'transmitter_id', 'sex', 'forklength_cm', 'weight_kg'.}
+
 \item{station}{A sf object of the station point locations containing column 'array' (for color coding). Geometry column must inherit class 'sfc_POINT' or 'sfc_MULTIPOINT'.}
+
+\item{receiver_group_rkm}{A tibble of the receiver group locations with columns 'rkm' and the receiver_group column name.}
+
+\item{reference_rkm}{A tibble of reference rkm locations containing columns 'label' and 'rkm'.}
 
 \item{river}{A sf object of the river polygon. Geometry column must inherit class 'sfc_POLYGON' or 'sfc_MULTIPOLYGON'.}
 
-\item{...}{arguments to pass to golem_opts.
-See `?golem::get_golem_options` for more details.}
+\item{timestep}{A character string of the timestep. Acceptable values are those accepted by \code{lubridate::floor_date()}: second, minute, hour, day, week, month, bimonth, quarter, season, halfyear and year.}
+
+\item{receiver_group}{A character string of the column containing receiver group (e.g., station, zone, array).}
+
+\item{max_absence}{A number of the maximum hours without detection for new event to occur.}
 }
 \description{
 Run the Shiny Application

@@ -1,20 +1,21 @@
 Package: shinywsgcolr
 Title: Columbia River White Sturgeon Shiny app
 Version: 0.0.0.9000
-Authors@R: person('Seb', 'Dalgarno', email = 'seb.dalgarno@gmail.com', role = c('cre', 'aut'))
+Authors@R: person('Seb', 'Dalgarno', email = 'dalgarno@unbc.ca', role = c('cre', 'aut'))
 Description: A Shiny app for visualizing Columbia River White Sturgeon acoustic telemetry and capture-recapture data.
 License: MIT + file LICENSE
 Imports: 
     bs4Dash,
     chk,
     config (>= 0.3.1),
+    dplyr,
+    ggplot2,
     glue,
     golem (>= 0.3.1),
     magrittr,
-    processx,
     shiny (>= 1.6.0),
-    shinyhelper,
-    waiter,
+    shinycssloaders,
+    shinyWidgets,
     wsgcolr
 Encoding: UTF-8
 LazyData: true

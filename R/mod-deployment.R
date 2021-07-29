@@ -14,9 +14,7 @@ mod_deployment_ui <- function(id) {
     fluidRow(
       bs4Dash::box(
         width = 12, title = "Receiver Coverage",
-        plotOutput(ns("plot_deployment"), inline = TRUE),
-        br(),
-        shiny::helpText("Segments indicate receiver deployments. Color indicates array (i.e., receiver group). Black dots indicate presence of detection data.")
+        shinycssloaders::withSpinner(plotOutput(ns("plot_deployment"), height = 600))
       )
     )
   )
@@ -30,12 +28,16 @@ mod_deployment_server <- function(id, detection, deployment, station, river) {
 
     ns <- session$ns
 
-    output$plot_deployment <- renderPlot(width = 1000, height = 600, {
-      wsgcolr::plot_receiver_coverage(station = station, river = river,
-                                      deployment = deployment, detection = detection,
-                                      text_size = 14)
+    output$plot_deployment <- renderPlot({
+      wsgcolr::plot_deployment(station = station,
+                               river = river,
+                               deployment = deployment,
+                               detection = detection) +
+        theme(axis.text = element_text(size = 14),
+              axis.title = element_text(size = 14),
+              legend.text = element_text(size = 14))
     })
-    }
+  }
   )
 }
 

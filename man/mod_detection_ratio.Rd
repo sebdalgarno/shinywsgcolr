@@ -2,12 +2,11 @@
 % Please edit documentation in R/mod-detection-ratio.R
 \name{mod_detection_ratio_ui}
 \alias{mod_detection_ratio_ui}
-\title{PDF Download Module}
+\title{Detection ratio}
 \usage{
-mod_detection_ratio_ui(id)
+mod_detection_ratio_ui(id, sex, weight, forklength)
 }
 \description{
-A shiny module for downloading field data cards. Select and
-download resources needed for the project like field cards.
+A shiny module for visualizing absolute and relative detection ratios.
 }
 \keyword{internal}

@@ -4,23 +4,23 @@
 \alias{mod_detection_path_ui}
 \alias{mod_detection_path_server}
 \alias{mod_detection_ratio_server}
-\title{PDF Download Module}
+\title{Detection path}
 \usage{
-mod_detection_path_ui(id)
+mod_detection_path_ui(id, sex, weight, forklength)
 
 mod_detection_path_server(
   id,
-  detection_path,
+  detection_event,
   deployment,
-  reference_locations,
+  fish,
+  reference_rkm,
   lims_x,
   lims_y
 )
 
-mod_detection_ratio_server(id)
+mod_detection_ratio_server(id, detection_complete, fish, receiver_group)
 }
 \description{
-A shiny module for downloading field data cards. Select and
-download resources needed for the project like field cards.
+A shiny module for visualizing detection paths.
 }
 \keyword{internal}
