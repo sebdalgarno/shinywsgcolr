@@ -57,7 +57,6 @@ app_ui <- function(request) {
         )
       )
     ),
-    controlbar = bs4Dash::dashboardControlbar(),
     footer = bs4Dash::dashboardFooter(
       left = a(
         href = "https://www.ffishlab.ca/",

@@ -5,30 +5,35 @@
 \title{Run the Shiny Application}
 \usage{
 run_app(
-  detection = readRDS(system.file("extdata/detection.rds", package = "shinywsgcolr")),
+  detection_station = readRDS(system.file("extdata/detection_station.rds", package =
+    "shinywsgcolr")),
+  detection_event = readRDS(system.file("extdata/detection_event.rds", package =
+    "shinywsgcolr")),
+  detection_complete = readRDS(system.file("extdata/detection_complete.rds", package =
+    "shinywsgcolr")),
   deployment = readRDS(system.file("extdata/deployment.rds", package = "shinywsgcolr")),
   fish = readRDS(system.file("extdata/fish.rds", package = "shinywsgcolr")),
   station = readRDS(system.file("extdata/station.rds", package = "shinywsgcolr")),
-  receiver_group_rkm = readRDS(system.file("extdata/receiver_group_rkm.rds", package =
-    "shinywsgcolr")),
   reference_rkm = readRDS(system.file("extdata/reference_rkm.rds", package =
     "shinywsgcolr")),
   river = readRDS(system.file("extdata/river.rds", package = "shinywsgcolr")),
   timestep = "day",
   receiver_group = "array",
-  max_absence = 96
+  receiver_group_rkm = "array_rkm"
 )
 }
 \arguments{
-\item{detection}{A tibble of raw detection data containing columns 'transmitter_id' and 'datetime_utc'.}
+\item{detection_station}{A tibble of detection station data returned from `wsgcolr::detection_timestep()` with `receiver_group` of `station_id`. Mandatory columns include 'transmitter_id', 'timestep', and 'station_id'.}
+
+\item{detection_event}{A tibble of detection path data returned from \code{wsgcolr::detection_event()}containing columns 'transmitter_id', 'timestep', 'path', 'array', 'array_rkm'.}
+
+\item{detection_complete}{A tibble of complete detection data returned from \code{wsgcolr::detection_complete()} containing columns 'transmitter_id' and 'timestep'.}
 
 \item{deployment}{A tibble of the receiver deployments containing columns 'date_deployment', 'date_last_download', 'station', 'array', 'array_rkm'.}
 
 \item{fish}{A tibble of fish data containing columns 'transmitter_id', 'sex', 'forklength_cm', 'weight_kg'.}
 
 \item{station}{A sf object of the station point locations containing column 'array' (for color coding). Geometry column must inherit class 'sfc_POINT' or 'sfc_MULTIPOINT'.}
-
-\item{receiver_group_rkm}{A tibble of the receiver group locations with columns 'rkm' and the receiver_group column name.}
 
 \item{reference_rkm}{A tibble of reference rkm locations containing columns 'label' and 'rkm'.}
 
@@ -38,7 +43,7 @@ run_app(
 
 \item{receiver_group}{A character string of the column containing receiver group (e.g., station, zone, array).}
 
-\item{max_absence}{A number of the maximum hours without detection for new event to occur.}
+\item{receiver_group_rkm}{A string of the column name indicating receiver_group rkm.}
 }
 \description{
 Run the Shiny Application

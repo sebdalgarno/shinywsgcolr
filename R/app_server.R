@@ -6,7 +6,7 @@
 #' @noRd
 app_server <- function( input, output, session ) {
 
-  detection_summary <- getShinyOption("detection_summary", NULL)
+  detection_station <- getShinyOption("detection_station", NULL)
   detection_event <- getShinyOption("detection_event", NULL)
   detection_complete <- getShinyOption("detection_complete", NULL)
   deployment <- getShinyOption("deployment", NULL)
@@ -15,12 +15,13 @@ app_server <- function( input, output, session ) {
   fish <- getShinyOption("fish", NULL)
   reference_rkm <- getShinyOption("reference_rkm", NULL)
   receiver_group <- getShinyOption("receiver_group", NULL)
+  receiver_group_rkm <- getShinyOption("receiver_group_rkm", NULL)
 
   lims_x = c(min(deployment$date_deployment), max(deployment$date_last_download))
   lims_y = c(0, 56)
 
   mod_deployment_server("deployment_ui",
-                        detection = detection_summary,
+                        detection = detection_station,
                         deployment = deployment,
                         station = station,
                         river = river)
@@ -30,7 +31,9 @@ app_server <- function( input, output, session ) {
                             deployment = deployment,
                             fish = fish,
                             reference_rkm = reference_rkm,
-                            lims_x = lims_x, lims_y = lims_y)
+                            lims_x = lims_x, lims_y = lims_y,
+                            receiver_group = receiver_group,
+                            receiver_group_rkm = receiver_group_rkm)
 
   mod_detection_ratio_server("detection_ratio_ui",
                              fish = fish,

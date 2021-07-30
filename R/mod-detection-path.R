@@ -21,7 +21,7 @@ mod_detection_path_ui <- function(id, sex, weight, forklength) {
         uiOutput(ns("ui_picker"))
       ),
       bs4Dash::box(
-        width = 8, title = "Detection Path",
+        width = 8, title = "Detection Paths",
         shiny::helpText("Detection paths are shown as lines. Coloured points mark the beginning and end of a path or movement to a new array.
         A path ends if a fish has not been detected for more than `max_absence` time."),
         br(),
@@ -35,7 +35,8 @@ mod_detection_path_ui <- function(id, sex, weight, forklength) {
 #'
 #' @rdname mod_detection_path
 mod_detection_path_server <- function(id, detection_event, deployment, fish,
-                                      reference_rkm, lims_x, lims_y) {
+                                      reference_rkm, lims_x, lims_y,
+                                      receiver_group, receiver_group_rkm) {
   moduleServer(id, function(input, output, session) {
 
     ns <- session$ns
@@ -56,8 +57,8 @@ mod_detection_path_server <- function(id, detection_event, deployment, fish,
     create_ui <- function(data) {
       p <-  wsgcolr::plot_detection_path(detection_event = data,
                                          deployment = deployment,
-                                         receiver_group = "array",
-                                         receiver_group_rkm = "array_rkm",
+                                         receiver_group = receiver_group,
+                                         receiver_group_rkm = receiver_group_rkm,
                                          reference_rkm = reference_rkm,
                                          lims_x = lims_x, lims_y = lims_y) +
         theme(axis.text = element_text(size = 14),

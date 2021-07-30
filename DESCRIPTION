@@ -24,5 +24,7 @@ RoxygenNote: 7.1.1
 Suggests: 
     spelling,
     testthat (>= 3.0.0)
+Remotes: 
+    sebdalgarno/wsgcolr
 Config/testthat/edition: 3
 Language: en-US

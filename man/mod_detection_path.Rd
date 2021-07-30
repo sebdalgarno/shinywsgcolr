@@ -15,7 +15,9 @@ mod_detection_path_server(
   fish,
   reference_rkm,
   lims_x,
-  lims_y
+  lims_y,
+  receiver_group,
+  receiver_group_rkm
 )
 
 mod_detection_ratio_server(id, detection_complete, fish, receiver_group)

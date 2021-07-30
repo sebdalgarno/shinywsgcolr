@@ -12,7 +12,7 @@ mod_detection_ratio_ui <- function(id, sex, weight, forklength) {
     id = ns("card_tab"),
     fluidRow(
       bs4Dash::box(
-        width = 4, title = "Which fish do you want to see?",
+        width = 4, title = "Which fish do you want to include?",
         checkboxGroupInput(ns("sex"), label = "Select sex",
                            choices = sex, selected = c("female", "male"), inline = TRUE),
         sliderInput(ns("forklength"), label = "Select fork length (cm) range",
@@ -22,7 +22,7 @@ mod_detection_ratio_ui <- function(id, sex, weight, forklength) {
         uiOutput(ns("ui_picker"))
       ),
       bs4Dash::box(
-        width = 8, title = "Detection Path",
+        width = 8, title = "Detection Ratios",
         shiny::helpText("Absolute and relative detection ratios are calculated for selected fish by receiver group."),
         br(),
         br(),
